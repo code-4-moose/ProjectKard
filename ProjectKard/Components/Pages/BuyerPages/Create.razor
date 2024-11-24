@@ -1,0 +1,84 @@
+﻿@page "/buyers/create"
+@using Microsoft.EntityFrameworkCore
+@using ProjectKard.Domain
+@inject IDbContextFactory<ProjectKard.Data.ProjectKardContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>Buyer</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Buyer" OnValidSubmit="AddBuyer" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label> 
+                <InputText id="name" @bind-Value="Buyer.Name" class="form-control" /> 
+                <ValidationMessage For="() => Buyer.Name" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="address" class="form-label">Address:</label> 
+                <InputText id="address" @bind-Value="Buyer.Address" class="form-control" /> 
+                <ValidationMessage For="() => Buyer.Address" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="contact" class="form-label">Contact:</label> 
+                <InputNumber id="contact" @bind-Value="Buyer.Contact" class="form-control" /> 
+                <ValidationMessage For="() => Buyer.Contact" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="stars" class="form-label">Stars:</label> 
+                <InputNumber id="stars" @bind-Value="Buyer.Stars" class="form-control" /> 
+                <ValidationMessage For="() => Buyer.Stars" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="ratingid" class="form-label">RatingId:</label> 
+                <InputText id="ratingid" @bind-Value="Buyer.RatingId" class="form-control" /> 
+                <ValidationMessage For="() => Buyer.RatingId" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="datecreated" class="form-label">DateCreated:</label> 
+                <InputDate id="datecreated" @bind-Value="Buyer.DateCreated" class="form-control" /> 
+                <ValidationMessage For="() => Buyer.DateCreated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="dateupdated" class="form-label">DateUpdated:</label> 
+                <InputDate id="dateupdated" @bind-Value="Buyer.DateUpdated" class="form-control" /> 
+                <ValidationMessage For="() => Buyer.DateUpdated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="createdby" class="form-label">CreatedBy:</label> 
+                <InputText id="createdby" @bind-Value="Buyer.CreatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Buyer.CreatedBy" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="updatedby" class="form-label">UpdatedBy:</label> 
+                <InputText id="updatedby" @bind-Value="Buyer.UpdatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Buyer.UpdatedBy" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/buyers">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Buyer Buyer { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddBuyer()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Buyer.Add(Buyer);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/buyers");
+    }
+}

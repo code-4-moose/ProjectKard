@@ -1,0 +1,129 @@
+﻿@page "/listings/edit"
+@using Microsoft.EntityFrameworkCore
+@using ProjectKard.Domain
+@inject IDbContextFactory<ProjectKard.Data.ProjectKardContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Listing</h2>
+<hr />
+@if (Listing is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Listing" OnValidSubmit="UpdateListing" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Listing.Id" value="@Listing.Id" />
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price:</label>
+                    <InputNumber id="price" @bind-Value="Listing.Price" class="form-control" />
+                    <ValidationMessage For="() => Listing.Price" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount:</label>
+                    <InputNumber id="amount" @bind-Value="Listing.Amount" class="form-control" />
+                    <ValidationMessage For="() => Listing.Amount" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="sellerid" class="form-label">SellerId:</label>
+                    <InputText id="sellerid" @bind-Value="Listing.SellerId" class="form-control" />
+                    <ValidationMessage For="() => Listing.SellerId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="cardid" class="form-label">CardId:</label>
+                    <InputText id="cardid" @bind-Value="Listing.CardId" class="form-control" />
+                    <ValidationMessage For="() => Listing.CardId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="categoryid" class="form-label">CategoryId:</label>
+                    <InputText id="categoryid" @bind-Value="Listing.CategoryId" class="form-control" />
+                    <ValidationMessage For="() => Listing.CategoryId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="datecreated" class="form-label">DateCreated:</label>
+                    <InputDate id="datecreated" @bind-Value="Listing.DateCreated" class="form-control" />
+                    <ValidationMessage For="() => Listing.DateCreated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dateupdated" class="form-label">DateUpdated:</label>
+                    <InputDate id="dateupdated" @bind-Value="Listing.DateUpdated" class="form-control" />
+                    <ValidationMessage For="() => Listing.DateUpdated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="createdby" class="form-label">CreatedBy:</label>
+                    <InputText id="createdby" @bind-Value="Listing.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => Listing.CreatedBy" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="updatedby" class="form-label">UpdatedBy:</label>
+                    <InputText id="updatedby" @bind-Value="Listing.UpdatedBy" class="form-control" />
+                    <ValidationMessage For="() => Listing.UpdatedBy" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/listings">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Listing? Listing { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Listing ??= await context.Listing.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Listing is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateListing()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Listing!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!ListingExists(Listing!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/listings");
+    }
+
+    private bool ListingExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Listing.Any(e => e.Id == id);
+    }
+}

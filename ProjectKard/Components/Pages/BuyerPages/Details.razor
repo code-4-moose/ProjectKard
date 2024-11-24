@@ -1,0 +1,62 @@
+﻿@page "/buyers/details"
+@using Microsoft.EntityFrameworkCore
+@using ProjectKard.Domain
+@inject IDbContextFactory<ProjectKard.Data.ProjectKardContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Buyer</h2>
+    <hr />
+    @if (buyer is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Name</dt>
+            <dd class="col-sm-10">@buyer.Name</dd>
+            <dt class="col-sm-2">Address</dt>
+            <dd class="col-sm-10">@buyer.Address</dd>
+            <dt class="col-sm-2">Contact</dt>
+            <dd class="col-sm-10">@buyer.Contact</dd>
+            <dt class="col-sm-2">Stars</dt>
+            <dd class="col-sm-10">@buyer.Stars</dd>
+            <dt class="col-sm-2">RatingId</dt>
+            <dd class="col-sm-10">@buyer.RatingId</dd>
+            <dt class="col-sm-2">DateCreated</dt>
+            <dd class="col-sm-10">@buyer.DateCreated</dd>
+            <dt class="col-sm-2">DateUpdated</dt>
+            <dd class="col-sm-10">@buyer.DateUpdated</dd>
+            <dt class="col-sm-2">CreatedBy</dt>
+            <dd class="col-sm-10">@buyer.CreatedBy</dd>
+            <dt class="col-sm-2">UpdatedBy</dt>
+            <dd class="col-sm-10">@buyer.UpdatedBy</dd>
+        </dl>
+        <div>
+            <a href="@($"/buyers/edit?id={buyer.Id}")">Edit</a> |
+            <a href="@($"/buyers")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Buyer? buyer;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        buyer = await context.Buyer.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (buyer is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

@@ -1,0 +1,41 @@
+﻿@page "/cards"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using ProjectKard.Domain
+@using ProjectKard.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<ProjectKard.Data.ProjectKardContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="cards/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.Cards">
+    <PropertyColumn Property="cards => cards.Condition" />
+    <PropertyColumn Property="cards => cards.Name" />
+    <PropertyColumn Property="cards => cards.DateCreated" />
+    <PropertyColumn Property="cards => cards.DateUpdated" />
+    <PropertyColumn Property="cards => cards.CreatedBy" />
+    <PropertyColumn Property="cards => cards.UpdatedBy" />
+
+    <TemplateColumn Context="cards">
+        <a href="@($"cards/edit?id={cards.Id}")">Edit</a> |
+        <a href="@($"cards/details?id={cards.Id}")">Details</a> |
+        <a href="@($"cards/delete?id={cards.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private ProjectKardContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

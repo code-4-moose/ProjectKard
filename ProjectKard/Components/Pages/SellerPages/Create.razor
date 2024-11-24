@@ -1,0 +1,84 @@
+﻿@page "/sellers/create"
+@using Microsoft.EntityFrameworkCore
+@using ProjectKard.Domain
+@inject IDbContextFactory<ProjectKard.Data.ProjectKardContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>Seller</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Seller" OnValidSubmit="AddSeller" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label> 
+                <InputText id="name" @bind-Value="Seller.Name" class="form-control" /> 
+                <ValidationMessage For="() => Seller.Name" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="address" class="form-label">Address:</label> 
+                <InputText id="address" @bind-Value="Seller.Address" class="form-control" /> 
+                <ValidationMessage For="() => Seller.Address" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="contact" class="form-label">Contact:</label> 
+                <InputNumber id="contact" @bind-Value="Seller.Contact" class="form-control" /> 
+                <ValidationMessage For="() => Seller.Contact" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="stars" class="form-label">Stars:</label> 
+                <InputNumber id="stars" @bind-Value="Seller.Stars" class="form-control" /> 
+                <ValidationMessage For="() => Seller.Stars" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="ratingid" class="form-label">RatingId:</label> 
+                <InputText id="ratingid" @bind-Value="Seller.RatingId" class="form-control" /> 
+                <ValidationMessage For="() => Seller.RatingId" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="datecreated" class="form-label">DateCreated:</label> 
+                <InputDate id="datecreated" @bind-Value="Seller.DateCreated" class="form-control" /> 
+                <ValidationMessage For="() => Seller.DateCreated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="dateupdated" class="form-label">DateUpdated:</label> 
+                <InputDate id="dateupdated" @bind-Value="Seller.DateUpdated" class="form-control" /> 
+                <ValidationMessage For="() => Seller.DateUpdated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="createdby" class="form-label">CreatedBy:</label> 
+                <InputText id="createdby" @bind-Value="Seller.CreatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Seller.CreatedBy" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="updatedby" class="form-label">UpdatedBy:</label> 
+                <InputText id="updatedby" @bind-Value="Seller.UpdatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Seller.UpdatedBy" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/sellers">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Seller Seller { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddSeller()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Seller.Add(Seller);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/sellers");
+    }
+}

@@ -1,0 +1,79 @@
+﻿@page "/deliveries/create"
+@using Microsoft.EntityFrameworkCore
+@using ProjectKard.Domain
+@inject IDbContextFactory<ProjectKard.Data.ProjectKardContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>Delivery</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Delivery" OnValidSubmit="AddDelivery" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="addressfrom" class="form-label">AddressFrom:</label> 
+                <InputText id="addressfrom" @bind-Value="Delivery.AddressFrom" class="form-control" /> 
+                <ValidationMessage For="() => Delivery.AddressFrom" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="addressto" class="form-label">AddressTo:</label> 
+                <InputText id="addressto" @bind-Value="Delivery.AddressTo" class="form-control" /> 
+                <ValidationMessage For="() => Delivery.AddressTo" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="deliveryfee" class="form-label">DeliveryFee:</label> 
+                <InputNumber id="deliveryfee" @bind-Value="Delivery.DeliveryFee" class="form-control" /> 
+                <ValidationMessage For="() => Delivery.DeliveryFee" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="buyerid" class="form-label">BuyerId:</label> 
+                <InputText id="buyerid" @bind-Value="Delivery.BuyerId" class="form-control" /> 
+                <ValidationMessage For="() => Delivery.BuyerId" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="datecreated" class="form-label">DateCreated:</label> 
+                <InputDate id="datecreated" @bind-Value="Delivery.DateCreated" class="form-control" /> 
+                <ValidationMessage For="() => Delivery.DateCreated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="dateupdated" class="form-label">DateUpdated:</label> 
+                <InputDate id="dateupdated" @bind-Value="Delivery.DateUpdated" class="form-control" /> 
+                <ValidationMessage For="() => Delivery.DateUpdated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="createdby" class="form-label">CreatedBy:</label> 
+                <InputText id="createdby" @bind-Value="Delivery.CreatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Delivery.CreatedBy" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="updatedby" class="form-label">UpdatedBy:</label> 
+                <InputText id="updatedby" @bind-Value="Delivery.UpdatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Delivery.UpdatedBy" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/deliveries">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Delivery Delivery { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddDelivery()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Delivery.Add(Delivery);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/deliveries");
+    }
+}

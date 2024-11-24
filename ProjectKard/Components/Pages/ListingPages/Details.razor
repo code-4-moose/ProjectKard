@@ -1,0 +1,62 @@
+﻿@page "/listings/details"
+@using Microsoft.EntityFrameworkCore
+@using ProjectKard.Domain
+@inject IDbContextFactory<ProjectKard.Data.ProjectKardContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Listing</h2>
+    <hr />
+    @if (listing is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Price</dt>
+            <dd class="col-sm-10">@listing.Price</dd>
+            <dt class="col-sm-2">Amount</dt>
+            <dd class="col-sm-10">@listing.Amount</dd>
+            <dt class="col-sm-2">SellerId</dt>
+            <dd class="col-sm-10">@listing.SellerId</dd>
+            <dt class="col-sm-2">CardId</dt>
+            <dd class="col-sm-10">@listing.CardId</dd>
+            <dt class="col-sm-2">CategoryId</dt>
+            <dd class="col-sm-10">@listing.CategoryId</dd>
+            <dt class="col-sm-2">DateCreated</dt>
+            <dd class="col-sm-10">@listing.DateCreated</dd>
+            <dt class="col-sm-2">DateUpdated</dt>
+            <dd class="col-sm-10">@listing.DateUpdated</dd>
+            <dt class="col-sm-2">CreatedBy</dt>
+            <dd class="col-sm-10">@listing.CreatedBy</dd>
+            <dt class="col-sm-2">UpdatedBy</dt>
+            <dd class="col-sm-10">@listing.UpdatedBy</dd>
+        </dl>
+        <div>
+            <a href="@($"/listings/edit?id={listing.Id}")">Edit</a> |
+            <a href="@($"/listings")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Listing? listing;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        listing = await context.Listing.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (listing is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

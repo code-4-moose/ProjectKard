@@ -1,0 +1,84 @@
+﻿@page "/listings/create"
+@using Microsoft.EntityFrameworkCore
+@using ProjectKard.Domain
+@inject IDbContextFactory<ProjectKard.Data.ProjectKardContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>Listing</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Listing" OnValidSubmit="AddListing" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price:</label> 
+                <InputNumber id="price" @bind-Value="Listing.Price" class="form-control" /> 
+                <ValidationMessage For="() => Listing.Price" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="amount" class="form-label">Amount:</label> 
+                <InputNumber id="amount" @bind-Value="Listing.Amount" class="form-control" /> 
+                <ValidationMessage For="() => Listing.Amount" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="sellerid" class="form-label">SellerId:</label> 
+                <InputText id="sellerid" @bind-Value="Listing.SellerId" class="form-control" /> 
+                <ValidationMessage For="() => Listing.SellerId" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="cardid" class="form-label">CardId:</label> 
+                <InputText id="cardid" @bind-Value="Listing.CardId" class="form-control" /> 
+                <ValidationMessage For="() => Listing.CardId" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="categoryid" class="form-label">CategoryId:</label> 
+                <InputText id="categoryid" @bind-Value="Listing.CategoryId" class="form-control" /> 
+                <ValidationMessage For="() => Listing.CategoryId" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="datecreated" class="form-label">DateCreated:</label> 
+                <InputDate id="datecreated" @bind-Value="Listing.DateCreated" class="form-control" /> 
+                <ValidationMessage For="() => Listing.DateCreated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="dateupdated" class="form-label">DateUpdated:</label> 
+                <InputDate id="dateupdated" @bind-Value="Listing.DateUpdated" class="form-control" /> 
+                <ValidationMessage For="() => Listing.DateUpdated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="createdby" class="form-label">CreatedBy:</label> 
+                <InputText id="createdby" @bind-Value="Listing.CreatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Listing.CreatedBy" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="updatedby" class="form-label">UpdatedBy:</label> 
+                <InputText id="updatedby" @bind-Value="Listing.UpdatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Listing.UpdatedBy" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/listings">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Listing Listing { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddListing()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Listing.Add(Listing);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/listings");
+    }
+}

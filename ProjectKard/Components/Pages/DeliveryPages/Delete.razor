@@ -1,0 +1,83 @@
+﻿@page "/deliveries/delete"
+@using Microsoft.EntityFrameworkCore
+@using ProjectKard.Domain
+@inject IDbContextFactory<ProjectKard.Data.ProjectKardContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<p>Are you sure you want to delete this?</p>
+<div>
+    <h2>Delivery</h2>
+    <hr />
+    @if (delivery is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">AddressFrom</dt>
+            <dd class="col-sm-10">@delivery.AddressFrom</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">AddressTo</dt>
+            <dd class="col-sm-10">@delivery.AddressTo</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DeliveryFee</dt>
+            <dd class="col-sm-10">@delivery.DeliveryFee</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">BuyerId</dt>
+            <dd class="col-sm-10">@delivery.BuyerId</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DateCreated</dt>
+            <dd class="col-sm-10">@delivery.DateCreated</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DateUpdated</dt>
+            <dd class="col-sm-10">@delivery.DateUpdated</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CreatedBy</dt>
+            <dd class="col-sm-10">@delivery.CreatedBy</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">UpdatedBy</dt>
+            <dd class="col-sm-10">@delivery.UpdatedBy</dd>
+        </dl>
+        <EditForm method="post" Model="delivery" OnValidSubmit="DeleteDelivery" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(delivery is null)">Delete</button> |
+            <a href="/deliveries">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private Delivery? delivery;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        delivery = await context.Delivery.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (delivery is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task DeleteDelivery()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Delivery.Remove(delivery!);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/deliveries");
+    }
+}

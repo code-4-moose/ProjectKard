@@ -1,0 +1,43 @@
+﻿@page "/admins"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using ProjectKard.Domain
+@using ProjectKard.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<ProjectKard.Data.ProjectKardContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="admins/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.Admin">
+    <PropertyColumn Property="admin => admin.Name" />
+    <PropertyColumn Property="admin => admin.Contact" />
+    <PropertyColumn Property="admin => admin.SellerId" />
+    <PropertyColumn Property="admin => admin.Approval" />
+    <PropertyColumn Property="admin => admin.DateCreated" />
+    <PropertyColumn Property="admin => admin.DateUpdated" />
+    <PropertyColumn Property="admin => admin.CreatedBy" />
+    <PropertyColumn Property="admin => admin.UpdatedBy" />
+
+    <TemplateColumn Context="admin">
+        <a href="@($"admins/edit?id={admin.Id}")">Edit</a> |
+        <a href="@($"admins/details?id={admin.Id}")">Details</a> |
+        <a href="@($"admins/delete?id={admin.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private ProjectKardContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
