@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ProjectKard.Configuration.Entities;
-using ProjectKard.Domain;
+using ProjectKard.Data;
 
 namespace ProjectKard.Data
 {
-    public class ProjectKardContext : DbContext
+    public class ProjectKardContext(DbContextOptions<ProjectKardContext> options) : IdentityDbContext<ProjectKardUser>(options)
     {
-        public ProjectKardContext (DbContextOptions<ProjectKardContext> options)
-            : base(options)
-        {
-        }
-
         public DbSet<ProjectKard.Domain.Admin> Admin { get; set; } = default!;
         public DbSet<ProjectKard.Domain.Buyer> Buyer { get; set; } = default!;
         public DbSet<ProjectKard.Domain.Cards> Cards { get; set; } = default!;
