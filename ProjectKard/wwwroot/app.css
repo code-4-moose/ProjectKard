@@ -49,3 +49,13 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+.Most_Recent{
+    border-top: 5px solid #006bb7;
+    padding-top: 10px;
+}
+
+.Most_Recent .h1 {
+    font-size: 15px;
+
+}
