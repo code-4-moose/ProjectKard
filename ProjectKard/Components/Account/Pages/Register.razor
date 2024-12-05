@@ -23,7 +23,7 @@
         background: #ffffff;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 200px;
+        margin-bottom: 140px;
         padding: 20px;
     }
 
@@ -35,25 +35,25 @@
 
     .heading-cardparc {
         font-family: 'Poppins', sans-serif;
-        font-size: 3rem;
+        font-size: 3.5rem;
         font-weight: 700;
         color: #343a40;
         text-transform: uppercase;
         letter-spacing: 3px;
         text-align: center;
         position: relative;
-        margin-top: 0px;
+        margin-top: 20px;
     }
 
-    .heading-cardparc::after {
-        content: "";
-        width: 100px;
-        height: 4px;
-        background-color: #007bff;
-        display: block;
-        margin: 0.3rem auto;
-        border-radius: 2px;
-    }
+        .heading-cardparc::after {
+            content: "";
+            width: 100px;
+            height: 4px;
+            background-color: #007bff;
+            display: block;
+            margin: 0.3rem auto;
+            border-radius: 2px;
+        }
 
     .links {
         display: flex;
@@ -72,11 +72,13 @@
         font-size: 1.2rem;
         font-weight: 700;
     }
+
 </style>
-<h1 class="heading-cardparc">CardParc</h1>
+<h1 class="heading-cardparc ">CardParc</h1>
+
 <div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="register-container">
-        <h1 class="registertext">Join in us Card Trading!</h1>
+    <div class="register-container ">
+        <h1 class="registertext">Join us in Card Trading!</h1>
         <StatusMessage Message="@Message" />
         <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
@@ -100,6 +102,7 @@
         </EditForm>
     </div>
 </div>
+
 
 @code {
     private IEnumerable<IdentityError>? identityErrors;
