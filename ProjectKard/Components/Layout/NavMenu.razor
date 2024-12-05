@@ -58,56 +58,57 @@
     </nav>
 </div> -->
 
-<div class="sidebar">
-    <ul>
-        <li>
-            <a href="#" class="logo">
-                <span class="icon"><i class="fa-solid fa-diamond"></i></span>
-                <span class="text">CardPark</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <span class="icon"><i class="fa-solid fa-right-to-bracket"></i></span>
-                <span class="text">Cards</span>
-            </a>
-        </li>
-        <AuthorizeView>
-            <Authorized>
-                <li>
-                    <a href="Account/Manage">
-                        <span class="icon"><i class="fa-solid fa-user"></i></span>
-                        <span class="text">@context.User.Identity?.Name</span>
-                    </a>
-                </li>
-                <li>
-                    <form action="Account/Logout" method="post">
-                        <AntiforgeryToken />
-                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                        <button type="submit" class="button">
+
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a href="#" class="logo">
+                    <span class="icon"><i class="fa-solid fa-diamond"></i></span>
+                    <span class="text">CardPark</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                <span class="icon"><i class="fa-solid fa-list"></i></span>
+                    <span class="text">Cards</span>
+                </a>
+            </li>
+            <AuthorizeView>
+                <Authorized>
+                    <li>
+                        <a href="Account/Manage">
+                            <span class="icon"><i class="fa-solid fa-user"></i></span>
+                            <span class="text">@context.User.Identity?.Name</span>
+                        </a>
+                    </li>
+                    <li>
+                        <form action="Account/Logout" method="post">
+                            <AntiforgeryToken />
+                            <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                            <button type="submit" class="button">
+                                <span class="icon"><i class="fa-solid fa-right-to-bracket"></i></span>
+                                <span class="text">Logout</span>
+                            </button>
+                        </form>
+                    </li>
+                </Authorized>
+                <NotAuthorized>
+                    <li>
+                        <a href="Account/Register">
+                            <span class="icon"><i class="fa-solid fa-user"></i></span>
+                            <span class="text">Register</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Account/Login">
                             <span class="icon"><i class="fa-solid fa-right-to-bracket"></i></span>
-                            <span class="text">Logout</span>
-                        </button>
-                    </form>
-                </li>
-            </Authorized>
-            <NotAuthorized>
-                <li>
-                    <a href="Account/Register">
-                        <span class="icon"><i class="fa-solid fa-user"></i></span>
-                        <span class="text">Register</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="Account/Login">
-                        <span class="icon"><i class="fa-solid fa-right-to-bracket"></i></span>
-                        <span class="text">Login</span>
-                    </a>
-                </li>
-            </NotAuthorized>
-        </AuthorizeView>
-    </ul>
-</div>
+                            <span class="text">Login</span>
+                        </a>
+                    </li>
+                </NotAuthorized>
+            </AuthorizeView>
+        </ul>
+    </div>
 
 @code {
     private string? currentUrl;

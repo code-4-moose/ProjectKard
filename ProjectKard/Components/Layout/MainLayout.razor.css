@@ -51,6 +51,14 @@ main {
     }
 
     .sidebar {
+        width: 100px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        transition: 0.5s ease;
+    }
+
+    .sidebar:hover {
         width: 250px;
         height: 100vh;
         position: sticky;
