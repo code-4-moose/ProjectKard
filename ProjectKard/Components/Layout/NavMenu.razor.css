@@ -1,4 +1,5 @@
-﻿.navbar-toggler {
+﻿/*
+.navbar-toggler {
     appearance: none;
     cursor: pointer;
     width: 3.5rem;
@@ -115,11 +116,144 @@
     }
 
     .nav-scrollable {
-        /* Never collapse the sidebar for wide screens */
+        /* Never collapse the sidebar for wide screens 
         display: block;
 
-        /* Allow sidebar to scroll for tall menus */
+        /* Allow sidebar to scroll for tall menus 
         height: calc(100vh - 3.5rem);
         overflow-y: auto;
     }
+} */
+
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 75px;
+    z-index: 1;
+    background-image: linear-gradient(180deg, rgb(99, 160, 237) 0%, #18587d );
+    overflow-x: hidden;
+    transition: 0.6s ease;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
+
+    .sidebar:hover {
+        width: 250px;
+        transition: 0.6s ease;
+    }
+
+    .sidebar ul {
+        padding-inline-start: 0px;
+        position: relative;
+        height: 97vh;
+    }
+
+        .sidebar ul li {
+            list-style: none;
+        }
+
+            .sidebar ul li:hover {
+                background: #514e4e;
+                transition: 0.3s ease;
+            }
+
+            .sidebar ul li a {
+                position: relative;
+                display: flex;
+                white-space: nowrap;
+                text-decoration: none;
+                color: white;
+            }
+
+            .sidebar ul li .logo {
+                margin-bottom: 80px;
+            }
+
+                .sidebar ul li .logo .text {
+                    font-size: 24px;
+                    font-weight: 600;
+                }
+
+            .sidebar ul li:last-child {
+                position: absolute;
+                bottom: -20px;
+                width: 100%;
+            }
+
+            .sidebar ul li:nth-last-child(2) {
+                position: absolute;
+                bottom: 40px;
+                width: 100%;
+            }
+
+
+
+            .sidebar ul li a .icon {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: 75px;
+                height: 60px;
+                font-size: 22px;
+            }
+
+            .sidebar ul li a .text {
+                opacity: 0;
+                position: relative;
+                display: flex;
+                align-items: center;
+                height: 60px;
+                font-size: 16px;
+                text-transform: uppercase;
+                letter-spacing: 0.6px;
+                font-weight: bold;
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+
+    .sidebar:hover ul li a .text {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .sidebar ul li form .icon {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 75px;
+        height: 60px;
+        font-size: 22px;
+    }
+
+    .sidebar ul li form .button {
+        padding-inline-start: 0px;
+        border-style: none;
+        background-color: inherit;
+        padding-block: 0px;
+        position: relative;
+        display: flex;
+        white-space: nowrap;
+        text-decoration: none;
+        color: white;
+    }
+
+    .sidebar ul li form .text {
+        opacity: 0;
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 60px;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        font-weight: bold;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .sidebar:hover ul li form .text {
+        opacity: 1;
+        transform: translateX(0);
+    }
