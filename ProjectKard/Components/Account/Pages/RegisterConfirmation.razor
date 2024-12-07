@@ -12,16 +12,37 @@
 
 <PageTitle>Register confirmation</PageTitle>
 
-<h1>Register confirmation</h1>
-
 <StatusMessage Message="@statusMessage" />
-
+<style>
+    .container{
+        width:700px;
+        height:100px;
+        text-align:center;
+ 
+    }
+    .font-link{
+        font-family: 'Poppins', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+    .font-r{
+        font-family: 'Poppins', sans-serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+    }
+</style>
 @if (emailConfirmationLink is not null)
 {
-    <p>
+    @* <p>
         This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
         Normally this would be emailed: <a href="@emailConfirmationLink">Click here to confirm your account</a>
-    </p>
+    </p> *@
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="container">
+            <h1 class="font-r">Register confirmation</h1>
+            <a class = "font-link"href="@emailConfirmationLink">Click here to confirm your account</a>
+        </div>
+    </div>
 }
 else
 {
