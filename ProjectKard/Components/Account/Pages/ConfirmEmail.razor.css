@@ -1,0 +1,20 @@
+﻿.container {
+    width: 700px;
+    height: 100px;
+    text-align: center;
+    margin-bottom: 200px;
+}
+
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #343a40;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.positioning {
+    position: relative;
+    left: 25%;
+}

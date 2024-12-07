@@ -1,0 +1,55 @@
+﻿.register-container {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 140px;
+    padding: 20px;
+}
+
+.text-font {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.heading-cardparc {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #343a40;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+    position: relative;
+    margin-top: 20px;
+}
+
+    .heading-cardparc::after {
+        content: "";
+        width: 100px;
+        height: 4px;
+        background-color: #007bff;
+        display: block;
+        margin: 0.3rem auto;
+        border-radius: 2px;
+    }
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.heading-cardparc:hover {
+    color: #007bff;
+    text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.registertext {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
